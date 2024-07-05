@@ -1,7 +1,5 @@
 // import { Table } from "@/components/ui/table";
 import React, { Component } from "react";
-/* import DtableHeader from "./DynamicTableHeader";
-import DtableBody from "./DynamicTableBody"; */
 import { Button } from "@/components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as heartRegular } from "@fortawesome/free-regular-svg-icons";
@@ -54,8 +52,7 @@ class MoviesTable extends Component {
   ];
 
   render() {
-    const { moviesList, likeHandler, deleteHandler, sortColumn, onSort } =
-      this.props;
+    const { moviesList, sortColumn, onSort } = this.props;
     return (
       <Dtable
         onSort={onSort}

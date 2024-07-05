@@ -38,16 +38,6 @@ class DtableHeader extends Component {
               {column.path ? this.renderSortIcon(column) : ""}
             </TableHead>
           ))}
-          {/* <TableHead onClick={() => this.raiseSort("title")}>Title</TableHead>
-          <TableHead onClick={() => this.raiseSort("genre.name")}>
-            Genre
-          </TableHead>
-          <TableHead onClick={() => this.raiseSort("rating")}>Rating</TableHead>
-          <TableHead onClick={() => this.raiseSort("boxOffice")}>
-            Box Office Price
-          </TableHead>
-          <TableHead>Likes</TableHead>
-          <TableHead>Action</TableHead> */}
         </TableRow>
       </TableHeader>
     );

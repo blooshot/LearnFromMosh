@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import {
@@ -20,10 +20,45 @@ import {
  --> also we can destructure the props while passing
 */
 /* const Navbar = (props) => {*/
-const Navbar = ({ totalCounter }) => {
+const Navbar = (props) => {
+  const { pages } = props;
+
   return (
     <>
-      <NavigationMenu>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
+              {pages.map((page) => (
+                <li className="nav-item" key={page.name}>
+                  <NavLink
+                    className={`nav-link ${({ isActive, isPending }) =>
+                      isPending ? "pending" : isActive ? "active" : ""}`}
+                    aria-current="page"
+                    to={page.path}
+                    {...props}
+                  >
+                    {page.name}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <form className="d-flex" role="search">
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button className="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </nav>
+
+      {/* <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -37,10 +72,10 @@ const Navbar = ({ totalCounter }) => {
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
-      </NavigationMenu>
+      </NavigationMenu> */}
 
       {/* <Badge>{this.props.totalCounter}</Badge> */}
-      <Badge>{totalCounter}</Badge>
+      {/* <Badge>{totalCounter}</Badge> */}
     </>
   );
 };

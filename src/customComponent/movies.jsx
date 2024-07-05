@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { getMovies } from "@/dataHelper/fakeMovies";
 import Paginate from "./Paginate";
 import { paginateUtil } from "@/dataHelper/paginateUtil";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { getGenre } from "@/dataHelper/fakeMovieGenre";
 import SideGroupList from "./sideListGroup";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
+import { Outlet } from "react-router-dom";
 
 /* No Prop, Only State used simple class component */
 
@@ -105,13 +105,15 @@ class MovieLister extends Component {
       this.state;
     const { totalCount, Movies } = this.getPagedData();
     return (
-      <div className="container">
-        {count == 0 ? (
-          <h1>No More Movies Available</h1>
-        ) : (
-          <h1>Here are total {totalCount} Movies</h1>
-        )}
+      <div>
         <div className="row">
+          {count == 0 ? (
+            <h1 className="py-3">No More Movies Available</h1>
+          ) : (
+            <h1 className="py-3 text-center h2 border-2 border-lime-400">
+              Here are total {totalCount} Movies
+            </h1>
+          )}
           <div className="col-3">
             <SideGroupList
               genre={genre}

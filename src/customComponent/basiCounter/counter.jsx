@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "@/components/ui/button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faCartPlus,faCartMin } from "@fortawesome/free-solid-svg-icons";
 
 class Counter extends Component {
   /* state = { value: this.props.counter.value ? this.props.counter.value : 0 };
@@ -24,7 +26,9 @@ class Counter extends Component {
         {/* <span>Count is #{this.state.value}</span> */}
         {/* <Button onClick={this.handleCount}>Add 1</Button> */}
         {/* <Button onClick={() => onIncrement(counter.id)}> */}
-        <Button onClick={() => onIncrementMosh(counter)}>Add 1</Button>
+        <Button onClick={() => onIncrementMosh(counter)}>
+          Add 1 <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
+        </Button>
         <Button onClick={() => onDecrementMosh(counter)}>Remove 1</Button>
         <Button
           onClick={() => {

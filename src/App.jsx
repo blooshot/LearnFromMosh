@@ -1,18 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { Button } from './components/ui/button'
-import { Outlet } from 'react-router-dom'
+import { useState } from "react";
+import "./App.css";
+import { Outlet, Route } from "react-router-dom";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Header from "./customComponent/common/header";
+import Products from "./customComponent/products";
 
-function App() {
-  const [count, setCount] = useState(0)
+library.add(fas, far);
+function App(props) {
+  const [count, setCount] = useState(0);
 
   return (
-    <>
-      <Outlet/>
-    </>
-  )
+    <div className="container-fluid py-3">
+      <Header pages={props.pages} />
+      {/* <Switch>
+        <Route path="/product/tag/1" Component={<Products />} />
+      </Switch> */}
+      <Outlet />
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Navbar from "../navbar";
+import Navbar from "../common/navbar";
 import Counters from "./counters";
 
 class Homapage extends Component {

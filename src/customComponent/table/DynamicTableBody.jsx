@@ -25,36 +25,6 @@ class DtableBody extends Component {
               </TableCell>
             ))}
           </TableRow>
-
-          /*  <TableRow key={movie.id}>
-            <TableCell>{movie.id}</TableCell>
-            <TableCell>{movie.title}</TableCell>
-            <TableCell>{movie.genre.join(", ")}</TableCell>
-            <TableCell>{movie.rating}</TableCell>
-            <TableCell>{movie.boxOffice}</TableCell>
-            <TableCell
-              onClick={() => {
-                likeHandler(movie);
-              }}
-              style={{ cursor: "pointer" }}
-            >
-              {movie.like ? (
-                <FontAwesomeIcon icon={heartSolid} />
-              ) : (
-                <FontAwesomeIcon icon={heartRegular} />
-              )}
-            </TableCell>
-            <TableCell>
-              <Button
-                onClick={() => {
-                  //this.handleDelete(movie.id);
-                  deleteHandler(movie);
-                }}
-              >
-                Delete
-              </Button>
-            </TableCell>
-          </TableRow> */
         ))}
       </TableBody>
     );

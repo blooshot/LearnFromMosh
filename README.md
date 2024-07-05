@@ -6,4 +6,4 @@
 
 # Pages
 
-- /movies : movie component
+- /movies : movie components

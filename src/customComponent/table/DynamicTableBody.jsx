@@ -1,8 +1,4 @@
 import React, { Component } from "react";
-import { Button } from "@/components/ui/button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as heartRegular } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as heartSolid } from "@fortawesome/free-solid-svg-icons";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import _ from "lodash";
 

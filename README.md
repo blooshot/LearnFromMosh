@@ -1,4 +1,9 @@
 # React + Vite
 
 - shadcn, bootstrap for UI
-- watching mosh tut for react
+- install dependency: npm install
+- Start: npm run dev
+
+# Pages
+
+- /movies : movie component

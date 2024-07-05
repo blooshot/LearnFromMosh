@@ -35,8 +35,7 @@ class DtableHeader extends Component {
               key={column.path || column.key}
             >
               {column.label || column.key}
-              {"  "}
-              {this.renderSortIcon(column)}
+              {column.path ? this.renderSortIcon(column) : ""}
             </TableHead>
           ))}
           {/* <TableHead onClick={() => this.raiseSort("title")}>Title</TableHead>

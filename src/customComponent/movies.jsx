@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { getMovies } from "@/dataHelper/fakeMovies";
 import Paginate from "./Paginate";
 import { paginateUtil } from "@/dataHelper/paginateUtil";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { getGenre } from "@/dataHelper/fakeMovieGenre";
 import SideGroupList from "./sideListGroup";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
+import { Outlet } from "react-router-dom";
 
 /* No Prop, Only State used simple class component */
 
@@ -49,21 +49,11 @@ class MovieLister extends Component {
   };
 
   handleLike = (movie) => {
-    /*  if (movie.like == true) {
-      movie.like = false;
-    } else {
-      movie.like = true;
-    } */
-
     const moviesArr = [...this.state.movies];
     const index = moviesArr.indexOf(movie);
     moviesArr[index] = { ...movie };
     moviesArr[index].like = !moviesArr[index].like;
 
-    /* this.state.movies.map((m)=>{
-
-    }) */
-    // console.log(movie);
     this.setState({ movies: moviesArr });
   };
 
@@ -73,11 +63,6 @@ class MovieLister extends Component {
   };
 
   handleGenre = (genre) => {
-    /* const genreArr = [...this.state.genre];
-    const index = genreArr.indexOf(genre);
-    genreArr[index] = { ...genre };
-    genreArr[index].selected = !genreArr[index].selected;
-    this.setState({ genre: genreArr }); */
     this.setState({ seletedGenre: genre, currentPage: 1 });
     // console.log(genre);
   };
@@ -93,11 +78,6 @@ class MovieLister extends Component {
     const filterMovies =
       seletedGenre && seletedGenre.id
         ? movies.filter((m) => {
-            /* m.genre.forEach((gen) => {
-          if (gen == seletedGenre.name) {
-            return;
-          }
-        }); */
             for (let gen of m.genre) {
               // code block to be executed
               if (gen == seletedGenre.name) {
@@ -113,9 +93,8 @@ class MovieLister extends Component {
       [sortColumn.path],
       [sortColumn.order]
     );
-    /*  console.log(sortColumn); */
+
     const PaginatedMovies = paginateUtil(sorted, currentPage, pageSize);
-    // const PaginatedMovies = paginateUtil(movies, currentPage, pageSize);
 
     return { Movies: PaginatedMovies, totalCount: filterMovies.length };
   };
@@ -125,34 +104,24 @@ class MovieLister extends Component {
     const { pageSize, currentPage, movies, genre, seletedGenre, sortColumn } =
       this.state;
     const { totalCount, Movies } = this.getPagedData();
-
-    /* var MvoeGenre = [];
-    movies.map((movie) => {
-      MvoeGenre.push(movie.genre);
-    });
-    let fuMo = [...new Set(MvoeGenre.flat())];
-    console.log(getGenre()); */
-    /* console.log(PaginatedMovies); */
-
     return (
-      <div className="container">
-        {count == 0 ? (
-          <h1>No More Movies Available</h1>
-        ) : (
-          <h1>Here are total {totalCount} Movies</h1>
-        )}
+      <div>
         <div className="row">
+          {count == 0 ? (
+            <h1 className="py-3">No More Movies Available</h1>
+          ) : (
+            <h1 className="py-3 text-center h2 border-2 border-lime-400">
+              Here are total {totalCount} Movies
+            </h1>
+          )}
           <div className="col-3">
-            {/* {genre.map((genre) => ( */}
             <SideGroupList
-              /* key={genre} */
               genre={genre}
               onSeletGenre={this.handleGenre}
               selectedGenre={seletedGenre}
               textProperty="name"
               valueProperty="id"
             />
-            {/* ))} */}
           </div>
 
           <div className="col-9">

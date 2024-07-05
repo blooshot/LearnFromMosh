@@ -2,11 +2,8 @@ import React, { Component } from "react";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from "@/components/ui/pagination";
 
 import _ from "lodash";
@@ -44,40 +41,9 @@ const Paginate = (props) => {
   return (
     <Pagination>
       <PaginationContent>
-        {/* <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem> */}
         {pages.map((page) => (
-          <PaginationItem key={page}>
-            {/* {currentPage === page ? (
-              <PaginationLink
-                isActive
-                href="#"
-                onClick={() => {
-                  onPageChange(page);
-                }}
-              >
-                {page}
-              </PaginationLink>
-            ) : (
-              <PaginationLink
-                href="#"
-                onClick={() => {
-                  onPageChange(page);
-                }}
-              >
-                {page}
-              </PaginationLink>
-            )} */}
-            {activePageAction(page)}
-          </PaginationItem>
+          <PaginationItem key={page}>{activePageAction(page)}</PaginationItem>
         ))}
-        {/* <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem> */}
-        {/* <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem> */}
       </PaginationContent>
     </Pagination>
   );

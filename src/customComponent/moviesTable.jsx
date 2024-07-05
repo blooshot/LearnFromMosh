@@ -1,17 +1,18 @@
 // import { Table } from "@/components/ui/table";
 import React, { Component } from "react";
-/* import DtableHeader from "./DynamicTableHeader";
-import DtableBody from "./DynamicTableBody"; */
 import { Button } from "@/components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as heartRegular } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as heartSolid } from "@fortawesome/free-solid-svg-icons";
 import Dtable from "./table/DynamicTableLayout";
+import { Link } from "react-router-dom";
 
 class MoviesTable extends Component {
   columns = [
     { path: "id", label: "ID" },
-    { path: "title", label: "Title" },
+    {
+      path: "title",
+      label: "Title",
+      content: (movie) => <Link to={`/movie/${movie.id}`}>{movie.title}</Link>,
+    },
     { path: "genre", label: "Genre" },
     { path: "rating", label: "Rating" },
     { path: "boxOffice", label: "Box Office Price" },
@@ -25,7 +26,7 @@ class MoviesTable extends Component {
             }}
             style={{ cursor: "pointer" }}
           >
-            <FontAwesomeIcon icon={heartSolid} />
+            <FontAwesomeIcon icon="fa-solid fa-heart" />
           </span>
         ) : (
           <span
@@ -34,7 +35,7 @@ class MoviesTable extends Component {
             }}
             style={{ cursor: "pointer" }}
           >
-            <FontAwesomeIcon icon={heartRegular} />{" "}
+            <FontAwesomeIcon icon="fa-regular fa-heart" />{" "}
           </span>
         );
       },
@@ -54,8 +55,7 @@ class MoviesTable extends Component {
   ];
 
   render() {
-    const { moviesList, likeHandler, deleteHandler, sortColumn, onSort } =
-      this.props;
+    const { moviesList, sortColumn, onSort } = this.props;
     return (
       <Dtable
         onSort={onSort}

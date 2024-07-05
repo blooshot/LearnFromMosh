@@ -1,5 +1,3 @@
-import { Leaf } from "lucide-react";
-
 const SideGroupList = (props) => {
   const { genre, onSeletGenre, textProperty, valueProperty, selectedGenre } =
     props;

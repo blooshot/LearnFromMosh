@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./products.css";
 import { getProducts } from "@/dataHelper/fakeProducts";
-import { Link } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 
 class Products extends Component {
   state = {

@@ -15,6 +15,8 @@ import AdminUsers from "./customComponent/admin/admin-users.jsx";
 import path from "path";
 import { element } from "prop-types";
 import MovieForm from "./customComponent/movieForm.jsx";
+import LoginForm from "./customComponent/loginForm.jsx";
+import RegistationForm from "./customComponent/registerForm.jsx";
 
 const customNavBarPages = [
   { name: "Home", path: "/" },
@@ -23,6 +25,8 @@ const customNavBarPages = [
   { name: "Single Product", path: "/product/1" },
   { name: "Cart", path: "/cart" },
   { name: "Movies", path: "/movies" },
+  { name: "LoginForm", path: "/login" },
+  { name: "Register", path: "/register" },
 ];
 
 const router = createBrowserRouter([
@@ -51,8 +55,20 @@ const router = createBrowserRouter([
         element: <Homapage />,
       },
       {
-        path: "/movie/:id?",
+        path: "/movies/:id?",
         element: <MovieForm />,
+      },
+      /*  {
+        path: "/movies/new",
+        element: <MovieForm />,
+      }, */
+      {
+        path: "/login",
+        element: <LoginForm />,
+      },
+      {
+        path: "/register",
+        element: <RegistationForm />,
       },
     ],
     errorElement: <ErrorPage />,

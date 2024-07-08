@@ -1,3 +1,4 @@
+import { getGenre } from "./fakeMovieGenre";
 const movies = [
   {
     id: 1,
@@ -403,4 +404,28 @@ const movies = [
 
 export function getMovies() {
   return movies;
+}
+
+export function getMovieById(id) {
+  const movie = movies.filter((movie) => movie.id == id);
+  return movie;
+}
+const genreAPI = getGenre();
+
+export function saveMovie(movie) {
+  let moviesInDB = movies.find((m) => m.id === movie.id) || {};
+
+  moviesInDB.title = movie.title;
+  moviesInDB.rating = movie.rating;
+  moviesInDB.boxOffice = movie.boxOffice;
+  const genreReturned = genreAPI.find((g) => g.id == movie.genreID);
+  moviesInDB.genre = [genreReturned.name];
+
+  if (!moviesInDB.id) {
+    const currentEpochTimeInMilliseconds = Date.now();
+    moviesInDB.id = currentEpochTimeInMilliseconds;
+    movies.push(moviesInDB);
+  }
+
+  return moviesInDB;
 }

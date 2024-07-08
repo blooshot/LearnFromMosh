@@ -1,3 +1,5 @@
+import { func } from "prop-types";
+
 export const genre = [
   {
     id: 1,
@@ -63,4 +65,11 @@ export const genre = [
 
 export function getGenre() {
   return genre.filter((g) => g);
+}
+export function getGenreJ() {
+  return genre.filter((g) => JSON.stringify(g));
+}
+
+export function getGenreNames() {
+  return genre.map((g) => g.name);
 }

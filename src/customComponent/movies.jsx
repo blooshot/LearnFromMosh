@@ -6,7 +6,7 @@ import { getGenre } from "@/dataHelper/fakeMovieGenre";
 import SideGroupList from "./sideListGroup";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 /* No Prop, Only State used simple class component */
 
@@ -99,6 +99,19 @@ class MovieLister extends Component {
     return { Movies: PaginatedMovies, totalCount: filterMovies.length };
   };
 
+  handleOnSearch = ({ currentTarget: input }) => {
+    const movies = this.state.movies;
+    const filtered = movies.filter((m) =>
+      m.title.toLowerCase().startsWith(input.value.toLowerCase())
+    );
+    let finalMvo = movies;
+    // console.log(filtered  );
+    if (filtered) {
+      finalMvo = filtered;
+    }
+    this.setState({ seletedGenre: null, currentPage: 1, movies: finalMvo });
+  };
+
   render() {
     const { length: count } = this.state.movies; //GIVING ALIAS NAME count TO LENGTH() METHOD OF MOVIES ARRAY( destructring )
     const { pageSize, currentPage, movies, genre, seletedGenre, sortColumn } =
@@ -107,13 +120,30 @@ class MovieLister extends Component {
     return (
       <div>
         <div className="row">
-          {count == 0 ? (
-            <h1 className="py-3">No More Movies Available</h1>
-          ) : (
-            <h1 className="py-3 text-center h2 border-2 border-lime-400">
-              Here are total {totalCount} Movies
-            </h1>
-          )}
+          <div className="justify-right">
+            {count == 0 ? (
+              <h1 className="py-3">
+                No Morconsole.log(input.value);e Movies Available
+              </h1>
+            ) : (
+              <h1 className="py-3 text-center h2 border-2 border-lime-400">
+                Here are total {totalCount} Movies
+              </h1>
+            )}
+            <button className="btn btn-primary justify-content-end">
+              <Link to="/movies/new">Add New Movie</Link>
+            </button>
+            <div className="py3">
+              <input
+                className="form-control me-2"
+                type="search"
+                name="searchmovies"
+                placeholder="Search Movies"
+                aria-label="Search"
+                onChange={this.handleOnSearch}
+              />
+            </div>
+          </div>
           <div className="col-3">
             <SideGroupList
               genre={genre}

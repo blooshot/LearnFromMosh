@@ -1,30 +1,51 @@
 import React, { Component } from "react";
-import { redirect, useLocation, useMatches } from "react-router-dom";
-import { getMovies, getMovieById, saveMovie } from "@/dataHelper/fakeMovies";
-import {
-  getGenre,
-  getGenreNames,
-  getGenreJ,
-} from "@/dataHelper/fakeMovieGenre";
+import { Link, redirect, useLocation, useMatches } from "react-router-dom";
+// import { getMovies, getMovieById, saveMovie } from "@/dataHelper/fakeMovies";
+import { getMovie, saveMovie } from "@/services/movieService";
+import { getGenre } from "@/services/genreService";
 import queryString from "query-string";
 import Joi from "joi-browser";
 import MasterForm from "./common/MasterForm";
+import { func } from "prop-types";
+import { toast } from "react-toastify";
 
 class MovieForm extends MasterForm {
   state = {
-    data: { title: "", genreID: "", rating: "", boxOffice: "" },
+    data: {
+      title: "",
+      genreId: "",
+      dailyRentalRate: "",
+      numberInStock: "",
+    },
     errors: {},
     genre: [],
   };
 
-  componentDidMount() {
-    const genre = getGenre();
+  async populateGenre() {
+    const { data: genre } = await getGenre();
     this.setState({ genre });
+  }
+
+  async populateMovies() {
+    const searchString = window.location.pathname.split("/");
+    // const movieID = this.props.match.params.id;
+    const movieID = searchString[searchString.length - 1];
+    if (movieID === "new") return;
+
+    const { data: movie } = await getMovie(movieID);
+    // console.log("mv", this.mapToViewModel(movie));
+    // if (!movie) return this.props.history.replace("/not-found");
+    this.setState({ data: this.mapToViewModel(movie) });
+  }
+
+  componentDidMount() {
+    this.populateGenre();
+    this.populateMovies();
   }
 
   schema = {
     title: Joi.string().max(50).required().label("Movie Title"),
-    genreID: Joi.string().max(15).required().label("Movie GenreID"),
+    genreId: Joi.string().required().label("Movie GenreID"),
     // genre: Joi.any()
     //   .valid(this.retStatewa())
     //   .custom((value, helper) => {
@@ -39,36 +60,48 @@ class MovieForm extends MasterForm {
     //   })
     //   .required()
     //   .label("Movie Genre"),
-    rating: Joi.number()
+    dailyRentalRate: Joi.number()
       .integer()
       .min(1)
-      .max(5)
+      .max(1000)
       .required()
-      .label("Movie Rating"),
-    boxOffice: Joi.string().required().label("Movie Box Office Price"),
+      .label("Movie rental rates"),
+    numberInStock: Joi.number()
+      .min(1)
+      .max(50)
+      .required()
+      .label("Movies in stock"),
+    _id: Joi.string().alphanum().min(3).max(30).label("Movie ID"),
+    // gen: Joi.string().max(50).required().label("Movie gen"),
   };
 
-  doSubmit = () => {
-    const savedDATa = saveMovie(this.state.data);
-    redirect("/movies");
+  doSubmit = async () => {
+    // const { data } = await saveMovie(this.state.data);
+    // const savedDATa = saveMovie(this.state.data);
+    // redirect("/movies");
     //call the server
-    console.log("submitted", savedDATa);
+    try {
+      await saveMovie(this.state.data);
+      toast.success(<Link to="/movies">Movie Saved Successfully</Link>);
+    } catch (ex) {
+      toast.error("Abhi kuch to chuda");
+    }
+    // console.log("submitted", data);
   };
 
   mapToViewModel(movie) {
     return {
-      id: movie.id,
+      _id: movie._id,
       title: movie.title,
-      genreID: movie.genre.id,
-      rating: movie.rating,
-      boxOffice: movie.boxOffice,
+      genreId: movie.genre._id,
+      numberInStock: movie.numberInStock,
+      dailyRentalRate: movie.dailyRentalRate,
     };
   }
 
   // console.log(movie);
   render() {
     // console.log("GN", getGenreNames());
-
     return (
       <div className="container">
         <div className="row justify-content-center">
@@ -76,13 +109,16 @@ class MovieForm extends MasterForm {
             <form onSubmit={this.handleSubmit}>
               {this.renderInputField("title", "Movie Title")}
               {this.renderInputSelect(
-                "genreID",
-                "Movie GenreID",
+                "genreId",
+                "Movie GenreId",
                 this.state.genre
               )}
               {/* {this.renderInputOption("genreID", "Movie Genre")} */}
-              {this.renderInputField("rating", "Movie Rating")}
-              {this.renderInputField("boxOffice", "Movie Box Office Price")}
+              {this.renderInputField("numberInStock", "Movie Number In Stocks")}
+              {this.renderInputField(
+                "dailyRentalRate",
+                "Movie Daily Rental Rates"
+              )}
               {this.renderButton("Save Movie")}
             </form>
           </div>
@@ -91,9 +127,6 @@ class MovieForm extends MasterForm {
     );
   }
 }
-
-export default MovieForm;
-
 // const MovieForm = () => {
 //   const location = useLocation();
 //   const matches = useMatches();
@@ -112,4 +145,4 @@ export default MovieForm;
 //   );
 // };
 
-// export default MovieForm;
+export default MovieForm;

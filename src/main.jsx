@@ -17,7 +17,8 @@ import { element } from "prop-types";
 import MovieForm from "./customComponent/movieForm.jsx";
 import LoginForm from "./customComponent/loginForm.jsx";
 import RegistationForm from "./customComponent/registerForm.jsx";
-
+import Posts from "./customComponent/Posts/Posts.jsx";
+import logService from "./services/logService.js";
 const customNavBarPages = [
   { name: "Home", path: "/" },
   { name: "Admin", path: "/admin" },
@@ -27,7 +28,10 @@ const customNavBarPages = [
   { name: "Movies", path: "/movies" },
   { name: "LoginForm", path: "/login" },
   { name: "Register", path: "/register" },
+  { name: "Posts", path: "/posts" },
 ];
+
+logService.init();
 
 const router = createBrowserRouter([
   {
@@ -58,10 +62,14 @@ const router = createBrowserRouter([
         path: "/movies/:id?",
         element: <MovieForm />,
       },
-      /*  {
+      {
         path: "/movies/new",
         element: <MovieForm />,
-      }, */
+      },
+      {
+        path: "/posts",
+        element: <Posts />,
+      },
       {
         path: "/login",
         element: <LoginForm />,
@@ -69,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <RegistationForm />,
+      },
+      {
+        path: "/not-found",
+        element: <ErrorPage />,
       },
     ],
     errorElement: <ErrorPage />,

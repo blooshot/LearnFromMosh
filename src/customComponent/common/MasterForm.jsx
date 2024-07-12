@@ -14,7 +14,7 @@ class MasterForm extends Component {
       abortEarly: false,
     };
     const { error } = Joi.validate(this.state.data, this.schema, options);
-    // console.log(error);
+    // console.log("vf", error);
     if (!error) return null;
     const errors = {};
     for (let item of error.details) {
@@ -37,7 +37,7 @@ class MasterForm extends Component {
     // console.log(name, value);
     const obj = { [name]: value };
     const schema = { [name]: this.schema[name] };
-    console.log("VP", obj, "==", this.schema);
+    // console.log("VP", obj, "==", this.schema);
     const { error } = Joi.validate(obj, schema);
     return error ? error.details[0].message : null;
   };
@@ -45,12 +45,14 @@ class MasterForm extends Component {
   handleChange = ({ currentTarget: input }) => {
     const errors = { ...this.state.errors };
     const errorMessage = this.validateProperty(input);
-    // console.log(errorMessage);
     if (errorMessage) errors[input.name] = errorMessage;
     else delete errors[input.name];
 
     const newData = { ...this.state.data };
+
     newData[input.name] = input.value;
+
+    // console.log("hcND>>", newData);
     this.setState({ data: newData, errors });
   };
 
@@ -103,7 +105,7 @@ class MasterForm extends Component {
         lable={label}
         name={name}
         options={options}
-        values={data[name]}
+        value={data[name]}
         onChange={this.handleChange}
         error={errors[name]}
       />

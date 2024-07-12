@@ -11,11 +11,62 @@ class MoviesTable extends Component {
     {
       path: "title",
       label: "Title",
-      content: (movie) => <Link to={`/movies/${movie.id}`}>{movie.title}</Link>,
+      content: (movie) => (
+        <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+      ),
     },
     { path: "genre", label: "Genre" },
     { path: "rating", label: "Rating" },
     { path: "boxOffice", label: "Box Office Price" },
+    {
+      key: "Likes",
+      content: (movie) => {
+        return movie.like ? (
+          <span
+            onClick={() => {
+              this.props.likeHandler(movie);
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            <FontAwesomeIcon icon="fa-solid fa-heart" />
+          </span>
+        ) : (
+          <span
+            onClick={() => {
+              this.props.likeHandler(movie);
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            <FontAwesomeIcon icon="fa-regular fa-heart" />{" "}
+          </span>
+        );
+      },
+    },
+    {
+      key: "Action",
+      content: (movie) => (
+        <Button
+          onClick={() => {
+            this.props.deleteHandler(movie);
+          }}
+        >
+          Delete
+        </Button>
+      ),
+    },
+  ];
+  columns2 = [
+    // { path: "_id", label: "ID" },
+    {
+      path: "title",
+      label: "Title",
+      content: (movie) => (
+        <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+      ),
+    },
+    { path: "genre.name", label: "Genre" },
+    { path: "dailyRentalRate", label: "Rental Rate" },
+    { path: "numberInStock", label: "Number In Stocks" },
     {
       key: "Likes",
       content: (movie) => {
@@ -59,7 +110,7 @@ class MoviesTable extends Component {
     return (
       <Dtable
         onSort={onSort}
-        columns={this.columns}
+        columns={this.columns2}
         sortColumn={sortColumn}
         data={moviesList}
       />

@@ -5,15 +5,17 @@ import _ from "lodash";
 
 class DtableBody extends Component {
   renderCell = (item, column) => {
+    // console.log("rcDATA>>", item);
+    // console.log("rcCOL>>", column);
     if (column.content) return column.content(item);
     return _.get(item, column.path);
   };
 
   createkey = (item, column) => {
-    return item.id + (column.path || column.key);
+    return item._id + (column.path || column.key);
   };
 
-  extractDataWithLodash = (sourceObject, comparisonArray) => {
+  /* extractDataWithLodash = (sourceObject, comparisonArray) => {
     const extractedData = {};
 
     // Loop through the comparison array
@@ -32,7 +34,7 @@ class DtableBody extends Component {
     }
     console.log("==>>", extractedData);
     return extractedData;
-  };
+  }; */
 
   getDataInQueryParam = (item, columns) => {
     // const extractedData = this.extractDataWithLodash(item, columns);
@@ -61,18 +63,19 @@ class DtableBody extends Component {
     /*  console.log("col", columns);
       console.log("item", item); */
     // console.log("==============", extractedData);
-    const stringified = queryString.stringify(item);
-    return stringified;
+    // const stringified = queryString.stringify(item);
+    // return stringified;
   };
 
   render() {
     const { data, columns } = this.props;
 
-    // console.log(data, columns);
+    // console.log("dtbDATA>>", data);
+    // console.log("dtbCOL>>", columns);
     return (
       <TableBody>
         {data.map((item) => (
-          <TableRow key={item.id}>
+          <TableRow key={item._id}>
             {columns.map((column) => (
               <TableCell key={this.createkey(item, column)}>
                 {this.renderCell(item, column)}

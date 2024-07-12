@@ -1,0 +1,4 @@
+{
+  "postsEndPoint": "https://jsonplaceholder.typicode.com/posts",
+  "vidlyEndpoint": "http://localhost:3900/api"
+}

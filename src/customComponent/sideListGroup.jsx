@@ -1,7 +1,7 @@
 const SideGroupList = (props) => {
   const { genre, onSeletGenre, textProperty, valueProperty, selectedGenre } =
     props;
-  // console.log("sdg", selectedGenre);
+  // console.log("sdg", genre);
   /* const isActive = genre.selected ? "active" : ""; */
   return (
     <ul className="list-group" key={1}>
@@ -22,7 +22,7 @@ const SideGroupList = (props) => {
 
 SideGroupList.defualtProps = {
   textProperty: "name",
-  valueProperty: "id",
+  valueProperty: "_id",
 };
 
 export default SideGroupList;

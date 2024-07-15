@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import { getMovies } from "@/dataHelper/fakeMovies";
+// import { getMovies } from "@/dataHelper/fakeMovies";
 import Paginate from "./Paginate";
 import { paginateUtil } from "@/dataHelper/paginateUtil";
-import { getGenre } from "@/dataHelper/fakeMovieGenre";
+// import { getGenre } from "@/dataHelper/fakeMovieGenre";
+import { getGenre } from "@/services/genreService";
+import { getMovies, deleteMovie } from "@/services/movieService";
 import SideGroupList from "./sideListGroup";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
 import { Link, Outlet } from "react-router-dom";
+import { toast } from "react-toastify";
 
 /* No Prop, Only State used simple class component */
 
@@ -19,9 +22,12 @@ class MovieLister extends Component {
     sortColumn: { path: "title", order: "asc" },
   };
 
-  componentDidMount() {
-    const genre = [{ id: "", name: "All Genres" }, ...getGenre()];
-    this.setState({ movies: getMovies(), genre });
+  async componentDidMount() {
+    const { data: genres } = await getGenre();
+    const genre = [{ _id: "", name: "All Genres" }, ...genres];
+    const { data: movies } = await getMovies();
+    // console.log(movies);
+    this.setState({ movies: movies, genre });
   }
 
   handleDelete = function (deleteId) {
@@ -42,10 +48,23 @@ class MovieLister extends Component {
     this.setState(currentState); */
   };
 
-  handleDeleteMosh = (movie) => {
-    console.log(movie);
-    const movies = this.state.movies.filter((m) => m.id !== movie.id);
+  handleDeleteMosh = async (movie) => {
+    // console.log(movie);
+    const originalMovies = this.state.movies;
+    const movies = originalMovies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
+
+    try {
+      await deleteMovie(movie._id);
+      toast.success("Movie Deleted!");
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        toast.error("This movie is already been deleted");
+
+        this.setState({ movies: originalMovies });
+      }
+      // this.setState({ movies: originalMovies });
+    }
   };
 
   handleLike = (movie) => {
@@ -76,8 +95,9 @@ class MovieLister extends Component {
       this.state;
 
     const filterMovies =
-      seletedGenre && seletedGenre.id
-        ? movies.filter((m) => {
+      seletedGenre && seletedGenre._id
+        ? movies.filter(
+            (m) => m.genre._id === seletedGenre._id /* {
             for (let gen of m.genre) {
               // code block to be executed
               if (gen == seletedGenre.name) {
@@ -85,7 +105,8 @@ class MovieLister extends Component {
               }
             }
             // console.log(m.genre.map((mg) => mg == seletedGenre.name));
-          })
+          } */
+          )
         : movies;
 
     const sorted = _.orderBy(
@@ -95,7 +116,6 @@ class MovieLister extends Component {
     );
 
     const PaginatedMovies = paginateUtil(sorted, currentPage, pageSize);
-
     return { Movies: PaginatedMovies, totalCount: filterMovies.length };
   };
 
@@ -117,6 +137,7 @@ class MovieLister extends Component {
     const { pageSize, currentPage, movies, genre, seletedGenre, sortColumn } =
       this.state;
     const { totalCount, Movies } = this.getPagedData();
+    // console.log("rend>>", Movies);
     return (
       <div>
         <div className="row">
@@ -150,7 +171,7 @@ class MovieLister extends Component {
               onSeletGenre={this.handleGenre}
               selectedGenre={seletedGenre}
               textProperty="name"
-              valueProperty="id"
+              valueProperty="_id"
             />
           </div>
 

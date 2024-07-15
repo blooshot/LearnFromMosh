@@ -6,7 +6,7 @@ const InputSelect = ({ lable, name, error, options, ...rest }) => {
       </label>
       <select id={name} name={name} {...rest} className="form-select">
         {options.map((option) => (
-          <option key={option.id} value={option.id}>
+          <option key={option._id} value={option._id}>
             {option.name}
           </option>
         ))}

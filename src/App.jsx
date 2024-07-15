@@ -10,7 +10,6 @@ import Header from "./customComponent/common/header";
 import Products from "./customComponent/products";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import auth from "@/services/authService";
 
 library.add(fas, far);

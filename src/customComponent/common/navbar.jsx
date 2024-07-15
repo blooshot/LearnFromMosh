@@ -12,6 +12,7 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
+import { forIn } from "lodash";
 
 /* 
  We can use Stateless function component, in case when we are not managing state for that component
@@ -21,15 +22,21 @@ import {
 */
 /* const Navbar = (props) => {*/
 const Navbar = (props) => {
-  const { pages } = props;
-
+  const { pages, user } = props;
+  let fpage = [...pages];
+  if (user != null && Object.keys(user).length != 0) {
+    fpage = pages.filter((p) => p.name != "LoginForm" && p.name != "Register");
+    fpage.push({ name: "LogOut", path: "/logout" });
+    // console.log(fpage);
+  }
+  console.log("nv", user);
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
-              {pages.map((page) => (
+              {fpage.map((page) => (
                 <li className="nav-item" key={page.name}>
                   <NavLink
                     className={`nav-link ${({ isActive, isPending }) =>
@@ -55,6 +62,13 @@ const Navbar = (props) => {
               Search
             </button>
           </form>
+          <div className="d-flex">
+            <span className="badge text-bg-success">
+              {user != null && Object.keys(user).length != 0
+                ? user.name
+                : "No Sessions"}
+            </span>
+          </div>
         </div>
       </nav>
 

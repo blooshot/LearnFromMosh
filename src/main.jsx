@@ -15,28 +15,18 @@ import AdminUsers from "./customComponent/admin/admin-users.jsx";
 import path from "path";
 import { element } from "prop-types";
 import MovieForm from "./customComponent/movieForm.jsx";
-import LoginForm from "./customComponent/loginForm.jsx";
-import RegistationForm from "./customComponent/registerForm.jsx";
+import LoginForm from "./customComponent/common/loginForm";
+import RegistationForm from "./customComponent/common/registerForm";
 import Posts from "./customComponent/Posts/Posts.jsx";
 import logService from "./services/logService.js";
-const customNavBarPages = [
-  { name: "Home", path: "/" },
-  { name: "Admin", path: "/admin" },
-  { name: "Products", path: "/products" },
-  { name: "Single Product", path: "/product/1" },
-  { name: "Cart", path: "/cart" },
-  { name: "Movies", path: "/movies" },
-  { name: "LoginForm", path: "/login" },
-  { name: "Register", path: "/register" },
-  { name: "Posts", path: "/posts" },
-];
+import Logout from "./customComponent/common/logout.jsx";
 
 logService.init();
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App pages={customNavBarPages} />,
+    element: <App />,
     children: [
       {
         path: "/movies",
@@ -77,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <RegistationForm />,
+      },
+      {
+        path: "/logout",
+        element: <Logout />,
       },
       {
         path: "/not-found",

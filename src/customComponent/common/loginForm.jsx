@@ -1,21 +1,41 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
-import MasterForm from "./common/MasterForm";
+import MasterForm from "./MasterForm";
+import auth from "@/services/authService";
+import { toast } from "react-toastify";
 
 class LoginForm extends MasterForm {
   state = {
-    data: { username: "", password: "" },
+    data: { email: "", password: "" },
     errors: {},
   };
 
   schema = {
-    username: Joi.string().required().label("Username"),
+    email: Joi.string().required().label("Email"),
     password: Joi.string().required().label("Password"),
   };
 
-  doSubmit = () => {
+  doSubmit = async () => {
     //call the server
-    console.log("submitted");
+    try {
+      const { email, password } = this.state.data;
+      await auth.login(email, password);
+
+      // window.history.pushState(null, null, "/movies");
+      window.location = "/";
+
+      toast.success("User Created Successfully");
+      // console.log(result);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        toast.error("KUch to chud gya hai");
+        const errors = { ...this.state.errors };
+        errors.email = ex.response.data;
+        this.setState({ errors });
+      }
+      console.log(ex);
+    }
+    // console.log("submitted", this.state.data);
   };
 
   /* validateForm = () => {
@@ -82,15 +102,8 @@ class LoginForm extends MasterForm {
         <div className="row justify-content-center">
           <div className="col-6">
             <form onSubmit={this.handleSubmit}>
-              {this.renderInputField("username", "UserName")}
+              {this.renderInputField("email", "Email")}
               {this.renderInputField("password", "Password", "password")}
-              {/*  <InputField
-                lable="Password"
-                name="password"
-                value={data.password}
-                onChange={this.handleChange}
-                error={errors.password}
-              /> */}
               {this.renderButton("Login")}
             </form>
           </div>

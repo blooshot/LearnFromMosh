@@ -1,3 +1,4 @@
+import React, { Component } from "react";
 import { useState } from "react";
 import "./App.css";
 import { Outlet, Route } from "react-router-dom";
@@ -10,12 +11,63 @@ import Products from "./customComponent/products";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import auth from "@/services/authService";
+
 library.add(fas, far);
-function App(props) {
+
+const customNavBarPages = [
+  { name: "Home", path: "/" },
+  { name: "Admin", path: "/admin" },
+  { name: "Products", path: "/products" },
+  { name: "Single Product", path: "/product/1" },
+  { name: "Cart", path: "/cart" },
+  { name: "Movies", path: "/movies" },
+  { name: "LoginForm", path: "/login" },
+  { name: "Register", path: "/register" },
+  { name: "Posts", path: "/posts" },
+];
+
+class App extends Component {
+  state = {
+    currentUser: null,
+  };
+
+  componentDidMount() {
+    const user = auth.getCurrentUser();
+    this.setState({ currentUser: user });
+    // console.log("jt>", user);
+  }
+  render() {
+    return (
+      <div className="container-fluid py-3">
+        <Header pages={customNavBarPages} user={this.state.currentUser} />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        {/* <Switch>
+        <Route path="/product/tag/1" Component={<Products />} />
+      </Switch> */}
+        <Outlet />
+      </div>
+    );
+  }
+}
+
+/* function App(props) {
+
   const [count, setCount] = useState(0);
 
   return (
-    <div className="container-fluid py-3">
+     <div className="container-fluid py-3">
       <Header pages={props.pages} />
       <ToastContainer
         position="top-right"
@@ -29,12 +81,12 @@ function App(props) {
         pauseOnHover
         theme="light"
       />
-      {/* <Switch>
+       <Switch>
         <Route path="/product/tag/1" Component={<Products />} />
-      </Switch> */}
+      </Switch> 
       <Outlet />
-    </div>
+    </div> 
   );
-}
+} */
 
 export default App;

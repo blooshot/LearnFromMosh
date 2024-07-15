@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
-import MasterForm from "./common/MasterForm";
+import MasterForm from "./MasterForm";
+import * as userService from "@/services/userServices";
+import { toast } from "react-toastify";
+import auth from "@/services/authService";
 
 class RegistationForm extends MasterForm {
   state = { data: { username: "", password: "", name: "" }, errors: {} };
@@ -11,8 +14,24 @@ class RegistationForm extends MasterForm {
     name: Joi.string().min(5).required().label("Name"),
   };
 
-  doSubmit = () => {
+  doSubmit = async () => {
     //call the server
+    try {
+      const { headers } = await userService.register(this.state.data);
+      auth.loginWithJWT(headers["x-auth-token"]);
+      toast.success("User Created Successfully");
+      window.location = "/";
+      console.log(result);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        toast.error("KUch to chud gya hai");
+        const errors = { ...this.state.errors };
+        errors.username = ex.response.data;
+        this.setState({ errors });
+      }
+      console.log(ex);
+    }
+
     console.log("Registration Completed");
   };
 
@@ -25,13 +44,6 @@ class RegistationForm extends MasterForm {
               {this.renderInputField("username", "UserName")}
               {this.renderInputField("password", "Password", "password")}
               {this.renderInputField("name", "Name")}
-              {/*  <InputField
-                    lable="Password"
-                    name="password"
-                    value={data.password}
-                    onChange={this.handleChange}
-                    error={errors.password}
-                  /> */}
               {this.renderButton("Register Me !")}
             </form>
           </div>

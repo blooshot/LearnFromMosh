@@ -25,6 +25,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "joi-browser": "13.4",
+    "jwt-decode": "^4.0.0",
     "lodash": "^4.17.10",
     "lucide-react": "^0.395.0",
     "prop-types": "^15.6.2",
